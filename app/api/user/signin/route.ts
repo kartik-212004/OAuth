@@ -7,7 +7,6 @@ const validation = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 })
 
-
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json()
   console.log(email, password)
@@ -24,9 +23,7 @@ export async function POST(req: NextRequest) {
   })
 
   if (existingUser) {
-    return NextResponse.json(
-      { message: "Email is already taken." }
-    )
+    return NextResponse.json({ message: "Email is already taken." })
   }
   const value = await prisma.user.create({
     data: {

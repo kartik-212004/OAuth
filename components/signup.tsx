@@ -3,9 +3,17 @@ import { useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 export function Signup() {
-  const [mail, setMail] = useState("")
+  const [email, setMail] = useState("")
   const [password, setPassword] = useState("")
-  const router = useRouter()
+  const route = useRouter()
+  async function check() {
+    const response = await axios.post("http://localhost:3000/api/user/login", {
+      email,
+      password,
+    })
+    const data = response.data
+    console.log(data)
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-200">
@@ -44,18 +52,7 @@ export function Signup() {
           </div>
 
           <button
-            onClick={(e) => {
-              e.preventDefault()
-              console.log(mail, password)
-              axios
-                .post("http://localhost:3000/api/user", {
-                  mail,
-                  password,
-                })
-                .then(() => {
-                  router.push("/")
-                })
-            }}
+            onClick={check}
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-600 transition-colors"
           >
