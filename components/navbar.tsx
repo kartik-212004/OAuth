@@ -1,21 +1,35 @@
+"use client"
+import Link from "next/link"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 export default function Navbar() {
+  const route = useRouter()
+  function logout() {
+    Cookies.remove("myCookie")
+    route.push("/login")
+  }
   return (
     <header className="bg-black text-white flex justify-between items-center p-4">
       <div className="text-lg font-bold">OLA</div>
       <nav className="space-x-4">
-        <a href="/login" className="hover:underline">
+        <Link href="/login" className="hover:underline">
           Login
-        </a>
-        <a href="/signin" className="hover:underline">
+        </Link>
+        <Link href="/signin" className="hover:underline">
           Sign In
-        </a>
-        <a href="/" className="hover:underline">
+        </Link>
+        <Link href="/" className="hover:underline">
           Home
-        </a>
+        </Link>
       </nav>
-      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-        Book an Ola Cab
-      </button>
+      <div className="space-x-3">
+        <button onClick={logout} className="bg-red-600 rounded py-2 px-4 ">
+          Logout
+        </button>
+        <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          Book an Ola Cab
+        </button>
+      </div>
     </header>
   )
 }

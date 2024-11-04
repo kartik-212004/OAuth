@@ -1,4 +1,17 @@
+"use client"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+
 const HomePage = () => {
+  const route = useRouter()
+  const value = Cookies.get("myCookie")
+  console.log(value)
+  useEffect(() => {
+    if (!value) {
+      route.push("/login")
+    }
+  }, [value,route]) // Add route as a dependency
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-5xl font-bold mb-4">Aircraft</h1>

@@ -1,8 +1,8 @@
 "use client"
 import { useState } from "react"
 import axios from "axios"
-import cookie from "cookie"
 import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 export function Signup() {
   const [email, setMail] = useState("")
   const [password, setPassword] = useState("")
@@ -22,16 +22,20 @@ export function Signup() {
     }
     setSuccess(data)
     setError("")
-    setTimeout(() => {
-      route.push("/")
-    }, 1000)
+    console.log("object")
+    Cookies.set("myCookie", response.data.existingMail.id, {
+      secure: true,
+      sameSite: "strict",
+    })
+
+    route.push("/")
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border h-[480px] border-gray-200">
         <form action="" method="post">
           <header className="w-full text-center text-3xl font-semibold mb-6 text-gray-800">
-            Sign Up
+            Log In
           </header>
 
           <div className="mb-5">

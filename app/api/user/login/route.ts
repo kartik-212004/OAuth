@@ -14,13 +14,17 @@ export async function POST(req: NextRequest) {
   })
 
   if (!existingMail) {
-    return NextResponse.json({ message: "Incorrect Email", status: false })
+    return NextResponse.json({ message: " Email Not Found", status: false })
   }
 
   const isPasswordValid = await bcrypt.compare(password, existingMail.password)
 
   if (isPasswordValid) {
-    return NextResponse.json({ message: "Login Successful", status: true })
+    return NextResponse.json({
+      message: "Login Successful",
+      status: true,
+      existingMail,
+    })
   } else {
     return NextResponse.json({ message: "Incorrect Password", status: false })
   }

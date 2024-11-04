@@ -26,7 +26,7 @@ export function Signin() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center">
       <div className="max-w-screen-xl bg-white shadow rounded-lg p-6 sm:p-12 flex flex-col items-center">
-        <h1 className="text-2xl xl:text-3xl font-extrabold mb-8">Sign In</h1>
+        <h1 className="text-2xl xl:text-3xl mb-8 font-bold">Sign In</h1>
 
         <div className="flex flex-col items-center w-full">
           <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out hover:shadow">
