@@ -1,22 +1,34 @@
 "use client"
 import { useState } from "react"
 import axios from "axios"
+import cookie from "cookie"
 import { useRouter } from "next/navigation"
 export function Signup() {
   const [email, setMail] = useState("")
   const [password, setPassword] = useState("")
+  const [success, setSuccess] = useState("")
+  const [error, setError] = useState("")
   const route = useRouter()
-  async function check() {
+  async function check(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
     const response = await axios.post("http://localhost:3000/api/user/login", {
       email,
       password,
     })
-    const data = response.data
-    console.log(data)
+    const data = await response.data.message
+    if (!response.data.status) {
+      setError(data)
+      return setSuccess("")
+    }
+    setSuccess(data)
+    setError("")
+    setTimeout(() => {
+      route.push("/")
+    }, 1000)
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-200">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border h-[480px] border-gray-200">
         <form action="" method="post">
           <header className="w-full text-center text-3xl font-semibold mb-6 text-gray-800">
             Sign Up
@@ -65,6 +77,16 @@ export function Signup() {
               Log in
             </a>
           </p>
+          {success && (
+            <div className="text-center bg-green-500 h-8 text-white font-semibold rounded-md my-3 flex items-center justify-center">
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="text-center bg-red-500 h-8 text-white font-semibold rounded-md my-3 flex items-center justify-center">
+              {error}
+            </div>
+          )}
         </form>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
+import bcrypt from "bcrypt"
 import { z } from "zod"
+
 const prisma = new PrismaClient()
 const validation = z.object({
   email: z.string().email(),
@@ -25,10 +27,11 @@ export async function POST(req: NextRequest) {
   if (existingUser) {
     return NextResponse.json({ message: "Email is already taken." })
   }
+  const hashedPassword = await bcrypt.hash(password, 10)
   const value = await prisma.user.create({
     data: {
       email,
-      password,
+      password: hashedPassword,
     },
   })
   console.log(value)

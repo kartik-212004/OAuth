@@ -1,24 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client"
+import bcrypt from "bcrypt"
+
 const prisma = new PrismaClient()
+
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json()
+
   const existingMail = await prisma.user.findUnique({
     where: {
       email,
     },
   })
-  const existingPassword = await prisma.user.findUnique({
-    where: {
-      email,
-      password,
-    },
-  })
-  if (existingMail) {
-    if (existingPassword) {
-      return NextResponse.json({ message: "Login Successful" })
-    }
-    return NextResponse.json({ message: "Incorrect Password" })
+
+  if (!existingMail) {
+    return NextResponse.json({ message: "Incorrect Email", status: false })
   }
-  return NextResponse.json({ message: "Incorrect Email" })
+
+  const isPasswordValid = await bcrypt.compare(password, existingMail.password)
+
+  if (isPasswordValid) {
+    return NextResponse.json({ message: "Login Successful", status: true })
+  } else {
+    return NextResponse.json({ message: "Incorrect Password", status: false })
+  }
 }
