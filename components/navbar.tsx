@@ -2,9 +2,12 @@
 import Link from "next/link"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 export default function Navbar() {
+  const [loggedIn, setLoggedIn] = useState(true)
   const route = useRouter()
   function logout() {
+    setLoggedIn(false)
     Cookies.remove("myCookie")
     route.push("/login")
   }
@@ -18,9 +21,11 @@ export default function Navbar() {
         <Link href="/signin" className="hover:underline">
           Sign In
         </Link>
-        <Link href="/" className="hover:underline">
-          Home
-        </Link>
+        {loggedIn && (
+          <Link href="/" className="hover:underline">
+            Home
+          </Link>
+        )}
       </nav>
       <div className="space-x-3">
         <button onClick={logout} className="bg-red-600 rounded py-2 px-4 ">

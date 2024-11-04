@@ -23,11 +23,7 @@ export function Signup() {
     setSuccess(data)
     setError("")
     console.log("object")
-    Cookies.set("myCookie", response.data.existingMail.id, {
-      secure: true,
-      sameSite: "strict",
-    })
-
+    Cookies.set("myCookie", response.data.existingMail.id)
     route.push("/")
   }
   return (
